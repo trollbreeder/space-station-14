@@ -26,6 +26,7 @@ public abstract class SharedCombatModeSystem : EntitySystem
     private void OnMapInit(EntityUid uid, CombatModeComponent component, MapInitEvent args)
     {
         _actionsSystem.AddAction(uid, ref component.CombatToggleActionEntity, component.CombatToggleAction);
+        SetMouseRotatorComponents(uid, true);
         Dirty(uid, component);
     }
 
@@ -80,12 +81,12 @@ public abstract class SharedCombatModeSystem : EntitySystem
 
         if (component.CombatToggleActionEntity != null)
             _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInCombatMode);
-
-        // Change mouse rotator comps if flag is set
+		
+		// Change mouse rotator comps if flag is set
         if (!component.ToggleMouseRotator || IsNpc(entity))
             return;
 
-        SetMouseRotatorComponents(entity, value);
+        SetMouseRotatorComponents(entity, !value);
     }
 
     private void SetMouseRotatorComponents(EntityUid uid, bool value)
